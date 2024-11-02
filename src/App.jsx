@@ -44,7 +44,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="bg-container animate-fade text-white">
+    <div className="bg-container bg-[url('.\assets\quiz-background-images\sound_motion_wave_9.jpg')] animate-fade text-white">
       <div className="flex flex-col justify-center items-center h-[100vh]">
         <Navbar />
         <div className="my-4 text-[48px] text-center">
