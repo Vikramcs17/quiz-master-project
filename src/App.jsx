@@ -58,7 +58,7 @@ const App = () => {
           <FeatureCard />
         </div>
         <div className="flex flex-col justify-center items-center mt-16 animate-fade-down animate-delay-1000">
-          <p className="text-3xl my-4">Scroll to see subjects</p>
+          <p className="text-3xl my-4">Scroll to see</p>
           <MdOutlineKeyboardArrowDown className='text-[56px] animate-bounce' />
         </div>
       </div>
