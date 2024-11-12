@@ -4,3 +4,47 @@
     width: 100vw;
     height: 100vh;
 }
+
+.landing-section {
+    background-image: url('/src/assets/quiz-background-images/sound_motion_wave_9.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.landing-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay for better text visibility */
+}
+
+.landing-section > * {
+    position: relative; /* Makes content appear above the overlay */
+    z-index: 1;
+}
+
+/* Custom styles for Typed.js cursor */
+.typed-cursor {
+  font-size: 3rem !important; /* Increase cursor size */
+  margin-left: 0.2rem !important; /* Add some space between text and cursor */
+  opacity: 1;
+  animation: blink 0.7s infinite;
+  -webkit-animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@-webkit-keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}

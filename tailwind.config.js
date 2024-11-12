@@ -8,8 +8,11 @@ export default {
     extend: {},
   },
   plugins: [
-    require('tailwindcss-animated'),
-    require('daisyui')
+    require('daisyui'),
+    require('tailwindcss-animated')
   ],
+  daisyui: {
+    themes: ["light"],
+  },
 }
 

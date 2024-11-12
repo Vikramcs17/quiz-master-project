@@ -1,30 +1,28 @@
 // Question.js
 
-import React, {Component} from "react";
-import Options from "./Option";
+import React from 'react';
+import Options from './Option';
 
-class Question extends Component{
-    render() {
-        const {question, selectedOption, onOptionChange, onSubmit} = this.props;
-
-        return(
-            <div className="">
-                <h3>Question {question.id}</h3>
-                <h5 className="mt-2">{question.question}</h5>
-                <form onSubmit={onSubmit} className="mt-2 mb-2">
-                    <Options
-                        options={question.options}
-                        selectedOption={selectedOption}
-                        onOptionChange={onOptionChange}
-                    />
-                    <button type="submit" className="btn btn-primary mt-2">
-                        SUBMIT
-                    </button>
-                </form>
-                
-            </div>
-        )
-    }
-}
+const Question = ({ question, selectedOption, onOptionChange, onSubmit }) => {
+    return (
+        <div className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold mb-4">{question.question}</h3>
+            <form onSubmit={onSubmit} className="space-y-4">
+                <Options
+                    options={question.options}
+                    selectedOption={selectedOption}
+                    onOptionChange={onOptionChange}
+                />
+                <button 
+                    type="submit" 
+                    className="btn btn-primary w-full"
+                    disabled={!selectedOption}
+                >
+                    {question.id === 5 ? "Finish Quiz" : "Next Question"}
+                </button>
+            </form>
+        </div>
+    );
+};
 
 export default Question;

@@ -1,25 +1,34 @@
-import React from 'react'
+import React from 'react';
+import Quiz from './Quiz';
 
-const SubjectCard = ({ subjectName, description, questions }) => {
-    return (
-        <div className='w-[300px] border-2 border-slate-300 text-slate-900 h-fit p-4 rounded-xl transition-all ease-linear delay-150 hover:scale-105 duration-300 drop-shadow-2xl'>
-          <h2 className="text-[24px]">{subjectName}</h2>
-          <p className=''>{description}</p>
-          <button className="btn btn-primary mt-2" onClick={() => document.getElementById('my_modal_4').showModal()}>Take Quiz</button>
-            <dialog id="my_modal_4" className="modal">
-                <div className="modal-box w-11/12 max-w-5xl bg-slate-100">
-                    <h3 className="font-bold text-lg">Let's start the quiz</h3>
-                    <p className="py-4">Click the button below to close</p>
-                    <div className="modal-action">
-                        <form method="dialog">
-                            {/* if there is a button, it will close the modal */}
-                            <button className="btn">Close</button>
-                        </form>
-                    </div>
-                </div>
-            </dialog>
+const SubjectCard = ({ subject }) => {
+  return (
+    <div className="card w-64 bg-white shadow-xl hover:shadow-2xl transition-all duration-300 mx-auto">
+      <div className="card-body p-6">
+        <h2 className="card-title text-xl mb-2">{subject.subjectName}</h2>
+        <p className="text-sm text-gray-600 mb-4">{subject.description}</p>
+        <div className="card-actions justify-start">
+          <button 
+            className="btn btn-primary btn-sm"
+            onClick={() => document.getElementById(`my_modal_${subject.subjectName}`).showModal()}
+          >
+            Take Quiz
+          </button>
         </div>
-    )
-}
+      </div>
 
-export default SubjectCard
+      <dialog id={`my_modal_${subject.subjectName}`} className="modal">
+        <div className="modal-box w-11/12 max-w-5xl">
+          <Quiz subjectName={subject.subjectName} />
+          <div className="modal-action">
+            <form method="dialog">
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+    </div>
+  );
+};
+
+export default SubjectCard;

@@ -1,75 +1,96 @@
-import React from 'react'
-import Navbar from './components/Navbar.jsx'
-import IntroCard from './components/IntroCard.jsx'
-import FeatureCard from './components/FeatureCard.jsx'
-import SearchBar from './components/SearchBar.jsx'
-import SubjectCard from './components/SubjectCard.jsx'
-import Typed from 'typed.js';
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-
+import React, { useRef, useEffect } from 'react'
+import Typed from 'typed.js'
+import Navbar from './components/Navbar'
+import SearchBar from './components/SearchBar'
+import SubjectCard from './components/SubjectCard'
+import { HiOutlineArrowDown } from "react-icons/hi"
 import './App.css'
 
 const App = () => {
-  const el = React.useRef(null);
+  const el = useRef(null);
 
-  let subjects = [
+  const subjects = [
     {
       subjectName: "Math",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quis reprehenderit sed dolores voluptatum. Dicta quos ex earum natus beatae!"
+      description: "Test your mathematical skills with our comprehensive quiz covering basic to advanced concepts."
     },
     {
       subjectName: "JavaScript",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quis reprehenderit sed dolores voluptatum. Dicta quos ex earum natus beatae!"
+      description: "Challenge yourself with JavaScript programming concepts, from basics to advanced topics."
     },
     {
       subjectName: "HTML",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quis reprehenderit sed dolores voluptatum. Dicta quos ex earum natus beatae!"
+      description: "Evaluate your HTML knowledge with questions covering structure, elements, and best practices."
     },
     {
       subjectName: "CSS",
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore quis reprehenderit sed dolores voluptatum. Dicta quos ex earum natus beatae!"
+      description: "Test your CSS styling expertise with questions about selectors, properties, and layouts."
     }
-  ]
+  ];
 
-  React.useEffect(() => {
+  useEffect(() => {
     const typed = new Typed(el.current, {
       strings: ['Take a quiz, go ahead!'],
       typeSpeed: 50,
+      cursorChar: '|',
+      showCursor: true,
     });
 
     return () => {
-      // Destroy Typed instance during cleanup to stop animation
       typed.destroy();
     };
   }, []);
 
-  return (
-    <div className="bg-container bg-[url('.\assets\quiz-background-images\sound_motion_wave_9.jpg')] animate-fade text-white">
-      <div className="flex flex-col justify-center items-center h-[100vh]">
-        <Navbar />
-        <div className="my-4 text-[48px] text-center">
-          <h1><span ref={el} /></h1>
-        </div>
-        <SearchBar></SearchBar>
-        <p className="text-[20px] my-6 animate-fade-down animate-delay-1000">Here are some features</p>
-        <div className="flex gap-4">
-          <FeatureCard />
-          <FeatureCard />
-          <FeatureCard />
-        </div>
-        <div className="flex flex-col justify-center items-center mt-16 animate-fade-down animate-delay-1000">
-          <p className="text-3xl my-4">Scroll to see subjects</p>
-          <MdOutlineKeyboardArrowDown className='text-[56px] animate-bounce' />
-        </div>
-      </div>
-      <div className="bg-slate-100 flex justify-center gap-8 h-screen py-12">
-        <SubjectCard subjectName={subjects[0].subjectName} description={subjects[0].description} />
-        <SubjectCard subjectName={subjects[1].subjectName} description={subjects[1].description} />
-        <SubjectCard subjectName={subjects[2].subjectName} description={subjects[2].description} />
-        <SubjectCard subjectName={subjects[3].subjectName} description={subjects[3].description} />
-      </div>
-    </div>
-  )
-}
+  const scrollToSubjects = () => {
+    const subjectsSection = document.getElementById('subjects-section');
+    subjectsSection.scrollIntoView({ behavior: 'smooth' });
+  };
 
-export default App
+  return (
+    <div>
+      {/* Landing Section */}
+      <section className="landing-section relative h-screen w-screen overflow-hidden">
+        <Navbar />
+        
+        <div className="flex flex-col items-center justify-center h-[calc(100vh-80px)]">
+          {/* Typed Text */}
+          <div className="text-center mb-12">
+            <span 
+              ref={el} 
+              className="text-4xl text-white font-bold"
+              style={{ display: 'inline-block' }}
+            ></span>
+          </div>
+
+          {/* Search Bar */}
+          <div className="flex justify-center mb-24 w-full">
+            <SearchBar />
+          </div>
+          <span className='text-white text-2xl absolute bottom-24'>Scroll down to view subjects</span>
+          {/* Scroll Down Indicator */}
+          <div 
+            className="absolute bottom-8 cursor-pointer "
+            onClick={scrollToSubjects}
+          >
+          
+            <HiOutlineArrowDown className="text-white text-4xl animate-bounce " />
+          </div>
+        </div>
+      </section>
+
+      {/* Subjects Section */}
+      <section id="subjects-section" className="min-h-screen bg-gray-100 py-20">
+        <div className="container mx-auto px-8">
+          <h2 className="text-3xl font-bold text-center mb-16">Choose Your Subject</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 max-w-6xl mx-auto">
+            {subjects.map((subject, index) => (
+              <SubjectCard key={index} subject={subject} />
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default App;
