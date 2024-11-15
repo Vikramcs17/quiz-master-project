@@ -5,6 +5,7 @@ import SearchBar from './components/SearchBar'
 import SubjectCard from './components/SubjectCard'
 import { HiOutlineArrowDown } from "react-icons/hi"
 import './App.css'
+import Footer from './components/Footer'
 
 const App = () => {
   const el = useRef(null);
@@ -89,6 +90,7 @@ const App = () => {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };
