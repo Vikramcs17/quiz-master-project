@@ -7,27 +7,33 @@ import { HiOutlineArrowDown } from "react-icons/hi"
 import './App.css'
 import Footer from './components/Footer'
 
+// Import images
+import mathImage from './assets/subject-images/math.jpg'
+import jsImage from './assets/subject-images/javascript.jpg'
+import htmlImage from './assets/subject-images/html.jpg'
+import cssImage from './assets/subject-images/css.jpg'
+
 const App = () => {
   const el = useRef(null);
 
   const subjects = [
     {
-      imageLink: "/src/assets/subject-images/math.jpg",
+      imageLink: mathImage,
       subjectName: "Math",
       description: "Test your mathematical skills with our comprehensive quiz covering basic to advanced concepts."
     },
     {
-      imageLink: "/src/assets/subject-images/javascript.jpg",
+      imageLink: jsImage,
       subjectName: "JavaScript",
       description: "Challenge yourself with JavaScript programming concepts, from basics to advanced topics."
     },
     {
-      imageLink: "/src/assets/subject-images/html.jpg",
+      imageLink: htmlImage,
       subjectName: "HTML",
       description: "Evaluate your HTML knowledge with questions covering structure, elements, and best practices."
     },
     {
-      imageLink: "/src/assets/subject-images/css.jpg",
+      imageLink: cssImage,
       subjectName: "CSS",
       description: "Test your CSS styling expertise with questions about selectors, properties, and layouts."
     }
