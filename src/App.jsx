@@ -3,6 +3,7 @@ import Typed from 'typed.js'
 import Navbar from './components/Navbar'
 import SearchBar from './components/SearchBar'
 import SubjectCard from './components/SubjectCard'
+import FeaturesSection from './components/FeaturesSection'
 import { HiOutlineArrowDown } from "react-icons/hi"
 import './App.css'
 import Footer from './components/Footer'
@@ -88,6 +89,9 @@ const App = () => {
           </div>
         </div>
       </section>
+
+      {/* Features Section */}
+      <FeaturesSection />
 
       {/* Subjects Section */}
       <section id="subjects-section" className="min-h-screen py-20 content-center">
