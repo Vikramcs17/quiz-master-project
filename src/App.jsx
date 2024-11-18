@@ -12,18 +12,22 @@ const App = () => {
 
   const subjects = [
     {
+      imageLink: "/src/assets/subject-images/math.jpg",
       subjectName: "Math",
       description: "Test your mathematical skills with our comprehensive quiz covering basic to advanced concepts."
     },
     {
+      imageLink: "/src/assets/subject-images/javascript.jpg",
       subjectName: "JavaScript",
       description: "Challenge yourself with JavaScript programming concepts, from basics to advanced topics."
     },
     {
+      imageLink: "/src/assets/subject-images/html.jpg",
       subjectName: "HTML",
       description: "Evaluate your HTML knowledge with questions covering structure, elements, and best practices."
     },
     {
+      imageLink: "/src/assets/subject-images/css.jpg",
       subjectName: "CSS",
       description: "Test your CSS styling expertise with questions about selectors, properties, and layouts."
     }
@@ -48,7 +52,7 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div className="bg-wrapper">
       {/* Landing Section */}
       <section className="landing-section relative h-screen w-screen overflow-hidden">
         <Navbar />
@@ -80,12 +84,12 @@ const App = () => {
       </section>
 
       {/* Subjects Section */}
-      <section id="subjects-section" className="min-h-screen bg-gray-100 py-20">
-        <div className="container mx-auto px-8">
-          <h2 className="text-3xl font-bold text-center mb-16">Choose Your Subject</h2>
+      <section id="subjects-section" className="min-h-screen py-20 content-center">
+        <div className="container mx-auto px-8 h-full w-full">
+          <h2 className="text-3xl font-bold text-center mb-16 text-white">Choose Your Subject</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 max-w-6xl mx-auto">
             {subjects.map((subject, index) => (
-              <SubjectCard key={index} subject={subject} />
+              <SubjectCard key={index} subject={subject} imageLink={subject.imageLink} />
             ))}
           </div>
         </div>

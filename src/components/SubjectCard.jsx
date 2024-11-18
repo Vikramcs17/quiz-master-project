@@ -1,10 +1,11 @@
 import React from 'react';
 import Quiz from './Quiz';
 
-const SubjectCard = ({ subject }) => {
+const SubjectCard = ({ subject, imageLink }) => {
   return (
     <div className="card w-64 bg-white shadow-xl hover:shadow-2xl transition-all duration-300 mx-auto">
       <div className="card-body p-6">
+        <img className='rounded-2xl' src={imageLink} alt="subject-image" />
         <h2 className="card-title text-xl mb-2">{subject.subjectName}</h2>
         <p className="text-sm text-gray-600 mb-4">{subject.description}</p>
         <div className="card-actions justify-start">
