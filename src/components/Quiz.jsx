@@ -7,9 +7,10 @@ const Quiz = ({ subjectName }) => {
     const [score, setScore] = useState(0);
     const [showScore, setShowScore] = useState(false);
     const [selectedAnswer, setSelectedAnswer] = useState('');
-    const [timeLeft, setTimeLeft] = useState(120); // 2 minutes in seconds
+    const [timeLeft, setTimeLeft] = useState(120);
     const [timeTaken, setTimeTaken] = useState(0);
-    const [timerActive, setTimerActive] = useState(true);
+    const [timerActive, setTimerActive] = useState(false);
+    const [quizStarted, setQuizStarted] = useState(false);
     
     const questions = questionBank[subjectName];
 
@@ -32,6 +33,32 @@ const Quiz = ({ subjectName }) => {
         return `${mins}:${secs.toString().padStart(2, '0')}`;
     };
 
+    const saveScore = () => {
+        const scoreData = {
+            subject: subjectName,
+            score: score,
+            totalQuestions: questions.length,
+            timeTaken: formatTime(timeTaken),
+            timestamp: new Date().toISOString()
+        };
+
+        const existingScores = JSON.parse(localStorage.getItem('quizScores') || '[]');
+        existingScores.unshift(scoreData);
+        const updatedScores = existingScores.slice(0, 10);
+        localStorage.setItem('quizScores', JSON.stringify(updatedScores));
+    };
+
+    const startQuiz = () => {
+        setQuizStarted(true);
+        setTimerActive(true);
+        setTimeLeft(120);
+        setTimeTaken(0);
+        setCurrentQuestion(0);
+        setScore(0);
+        setShowScore(false);
+        setSelectedAnswer('');
+    };
+
     const handleAnswerClick = (answer) => {
         setSelectedAnswer(answer);
     };
@@ -39,6 +66,7 @@ const Quiz = ({ subjectName }) => {
     const handleQuizEnd = () => {
         setTimerActive(false);
         setShowScore(true);
+        saveScore();
     };
 
     const handleNextQuestion = () => {
@@ -56,17 +84,33 @@ const Quiz = ({ subjectName }) => {
     };
 
     const restartQuiz = () => {
+        setQuizStarted(false);
+        setTimerActive(false);
+        setTimeLeft(120);
+        setTimeTaken(0);
         setCurrentQuestion(0);
         setScore(0);
         setShowScore(false);
         setSelectedAnswer('');
-        setTimeLeft(120);
-        setTimeTaken(0);
-        setTimerActive(true);
     };
 
     if (!questions) {
         return <div>Loading questions...</div>;
+    }
+
+    if (!quizStarted) {
+        return (
+            <div className="text-center p-8">
+                <h2 className="text-2xl font-bold mb-4">{subjectName} Quiz</h2>
+                <p className="mb-6">This quiz contains {questions.length} questions and has a time limit of 2 minutes.</p>
+                <button 
+                    onClick={startQuiz}
+                    className="bg-violet-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-violet-700 transition duration-300"
+                >
+                    Start Quiz
+                </button>
+            </div>
+        );
     }
 
     return (
@@ -107,13 +151,21 @@ const Quiz = ({ subjectName }) => {
                             </div>
                         ))}
                     </div>
-                    <button 
-                        className="btn btn-primary mt-4"
-                        onClick={handleNextQuestion}
-                        disabled={!selectedAnswer}
-                    >
-                        {currentQuestion === questions.length - 1 ? 'Finish Quiz' : 'Next Question'}
-                    </button>
+                    <div className="flex justify-between mt-4">
+                        <button 
+                            className="btn btn-secondary"
+                            onClick={restartQuiz}
+                        >
+                            Restart Quiz
+                        </button>
+                        <button 
+                            className="btn btn-primary"
+                            onClick={handleNextQuestion}
+                            disabled={!selectedAnswer}
+                        >
+                            {currentQuestion === questions.length - 1 ? 'Finish Quiz' : 'Next Question'}
+                        </button>
+                    </div>
                 </div>
             )}
         </div>

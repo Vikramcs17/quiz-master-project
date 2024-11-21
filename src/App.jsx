@@ -1,9 +1,10 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import Typed from 'typed.js'
 import Navbar from './components/Navbar'
 import SearchBar from './components/SearchBar'
 import SubjectCard from './components/SubjectCard'
 import FeaturesSection from './components/FeaturesSection'
+import ScoreHistory from './components/ScoreHistory'
 import { HiOutlineArrowDown } from "react-icons/hi"
 import './App.css'
 import Footer from './components/Footer'
@@ -16,6 +17,7 @@ import cssImage from './assets/subject-images/css.jpg'
 
 const App = () => {
   const el = useRef(null);
+  const [scores, setScores] = useState([]);
 
   const subjects = [
     {
@@ -53,6 +55,34 @@ const App = () => {
     };
   }, []);
 
+  useEffect(() => {
+    // Load scores from localStorage
+    const loadScores = () => {
+      const savedScores = JSON.parse(localStorage.getItem('quizScores') || '[]');
+      setScores(savedScores);
+    };
+
+    // Initial load
+    loadScores();
+
+    // Set up event listener for storage changes
+    const handleStorageChange = (e) => {
+      if (e.key === 'quizScores') {
+        loadScores();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    // Check for new scores every 5 seconds
+    const interval = setInterval(loadScores, 5000);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
+    };
+  }, []);
+
   const scrollToSubjects = () => {
     const subjectsSection = document.getElementById('subjects-section');
     subjectsSection.scrollIntoView({ behavior: 'smooth' });
@@ -63,12 +93,12 @@ const App = () => {
       {/* Landing Section */}
       <section className="landing-section relative h-screen w-screen overflow-hidden">
         <Navbar />
-        
+
         <div className="flex flex-col items-center justify-center h-[calc(100vh-80px)]">
           {/* Typed Text */}
           <div className="text-center mb-12">
-            <span 
-              ref={el} 
+            <span
+              ref={el}
               className="text-4xl text-white font-bold"
               style={{ display: 'inline-block' }}
             ></span>
@@ -80,17 +110,16 @@ const App = () => {
           </div>
           <span className='text-white text-2xl absolute bottom-24'>Scroll down to view subjects</span>
           {/* Scroll Down Indicator */}
-          <div 
+          <div
             className="absolute bottom-8 cursor-pointer "
             onClick={scrollToSubjects}
           >
-          
+
             <HiOutlineArrowDown className="text-white text-4xl animate-bounce " />
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
       <FeaturesSection />
 
       {/* Subjects Section */}
@@ -103,7 +132,18 @@ const App = () => {
             ))}
           </div>
         </div>
+
+        {/* Score History Section */}
+        <div className="container mx-auto px-4 py-8 min-h-screen content-center">
+          <h2 className="text-3xl text-white font-bold text-center mb-8">Your Scores</h2>
+          <ScoreHistory scores={scores} />
+        </div>
+
       </section>
+
+
+
+
       <Footer />
     </div>
   );
