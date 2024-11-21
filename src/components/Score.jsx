@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-const Score = ({ score, totalQuestions }) => {
+const Score = ({ score, totalQuestions, timeTaken }) => {
     const [percentage, setPercentage] = useState(0);
     
     useEffect(() => {
@@ -24,11 +24,17 @@ const Score = ({ score, totalQuestions }) => {
     };
 
     const getMessage = () => {
-        if (percentage === 100) return "Perfect! You're a genius! 🎉";
-        if (percentage >= 80) return "Excellent work! 🌟";
-        if (percentage >= 60) return "Good job! 👏";
-        if (percentage >= 40) return "Keep practicing! 💪";
-        return "Don't give up! Try again! 🎯";
+        if (percentage === 100) return "Perfect! You're a genius! ";
+        if (percentage >= 80) return "Excellent work! ";
+        if (percentage >= 60) return "Good job! ";
+        if (percentage >= 40) return "Keep practicing! ";
+        return "Don't give up! Try again! ";
+    };
+
+    const formatTime = (seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
     };
 
     return (
@@ -41,16 +47,11 @@ const Score = ({ score, totalQuestions }) => {
                     value={percentage}
                     text={`${Math.round(percentage)}%`}
                     styles={buildStyles({
-                        // Colors
                         pathColor: getColor(),
                         textColor: getColor(),
                         trailColor: '#d6d6d6',
                         backgroundColor: '#3e98c7',
-
-                        // Animation
                         pathTransition: 'stroke-dashoffset 1s ease-in-out',
-
-                        // Text
                         textSize: '16px',
                     })}
                 />
@@ -60,6 +61,10 @@ const Score = ({ score, totalQuestions }) => {
             <div className="space-y-4">
                 <div className="text-xl font-semibold">
                     You scored {score} out of {totalQuestions}
+                </div>
+                
+                <div className="text-lg text-gray-600">
+                    Time taken: {formatTime(timeTaken)}
                 </div>
                 
                 <div className={`text-lg font-medium transition-all duration-500

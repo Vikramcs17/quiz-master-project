@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import questionBank from './QuestionBank';
 import Score from './Score';
 
@@ -7,11 +7,38 @@ const Quiz = ({ subjectName }) => {
     const [score, setScore] = useState(0);
     const [showScore, setShowScore] = useState(false);
     const [selectedAnswer, setSelectedAnswer] = useState('');
+    const [timeLeft, setTimeLeft] = useState(120); // 2 minutes in seconds
+    const [timeTaken, setTimeTaken] = useState(0);
+    const [timerActive, setTimerActive] = useState(true);
     
     const questions = questionBank[subjectName];
 
+    useEffect(() => {
+        let timer;
+        if (timerActive && timeLeft > 0 && !showScore) {
+            timer = setInterval(() => {
+                setTimeLeft(prev => prev - 1);
+                setTimeTaken(prev => prev + 1);
+            }, 1000);
+        } else if (timeLeft === 0 && !showScore) {
+            handleQuizEnd();
+        }
+        return () => clearInterval(timer);
+    }, [timeLeft, timerActive, showScore]);
+
+    const formatTime = (seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    };
+
     const handleAnswerClick = (answer) => {
         setSelectedAnswer(answer);
+    };
+
+    const handleQuizEnd = () => {
+        setTimerActive(false);
+        setShowScore(true);
     };
 
     const handleNextQuestion = () => {
@@ -24,7 +51,7 @@ const Quiz = ({ subjectName }) => {
             setCurrentQuestion(nextQuestion);
             setSelectedAnswer('');
         } else {
-            setShowScore(true);
+            handleQuizEnd();
         }
     };
 
@@ -33,6 +60,9 @@ const Quiz = ({ subjectName }) => {
         setScore(0);
         setShowScore(false);
         setSelectedAnswer('');
+        setTimeLeft(120);
+        setTimeTaken(0);
+        setTimerActive(true);
     };
 
     if (!questions) {
@@ -40,20 +70,28 @@ const Quiz = ({ subjectName }) => {
     }
 
     return (
-        <div className="p-4">
+        <div className="p-4 relative">
             <h2 className="text-2xl font-bold mb-4">{subjectName} Quiz</h2>
             
             {showScore ? (
                 <Score 
                     score={score} 
-                    totalQuestions={questions.length} 
+                    totalQuestions={questions.length}
+                    timeTaken={timeTaken}
                 />
             ) : (
                 <div>
-                    <div className="mb-4">
-                        Question {currentQuestion + 1} of {questions.length}
+                    {/* Timer and Progress Display */}
+                    <div className="absolute top-2 right-4 text-right">
+                        <div className={`text-lg font-bold ${timeLeft <= 30 ? 'text-red-600' : 'text-gray-700'}`}>
+                            Time Left: {formatTime(timeLeft)}
+                        </div>
+                        <div className="text-sm text-gray-600">
+                            Question {currentQuestion + 1}/{questions.length}
+                        </div>
                     </div>
-                    <div className="mb-4">
+
+                    <div className="mb-4 mt-12">
                         <h3 className="text-lg font-semibold">{questions[currentQuestion].question}</h3>
                     </div>
                     <div className="space-y-2">
