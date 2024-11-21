@@ -47,10 +47,19 @@ The application will be available at `http://localhost:5173` (or another port if
 
 ```
 quiz-master/
-├── src/              # Source files
-├── public/           # Static assets
-├── index.html        # Entry HTML file
-├── vite.config.js    # Vite configuration
-├── tailwind.config.js # Tailwind CSS configuration
-└── package.json      # Project dependencies and scripts
+├── src/
+│   ├── components/
+│   │   ├── About.jsx
+│   │   ├── Contact.jsx
+│   │   ├── Navbar.jsx
+│   │   ├── SearchBar.jsx
+│   │   ├── SubjectCard.jsx
+│   │   ├── FeaturesSection.jsx
+│   │   ├── ScoreHistory.jsx
+│   │   └── Footer.jsx
+│   ├── assets/
+│   │   └── subject-images/
+│   └── App.jsx
+├── server/
+└── [configuration files]
 ```

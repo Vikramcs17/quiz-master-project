@@ -5,7 +5,7 @@ const Navbar = () => {
   const location = useLocation();
 
   return (
-    <nav className='w-full text-white flex justify-between px-20 py-8 fixed top-0 left-0 z-50'>
+    <nav className='w-full text-white flex justify-between px-20 py-8 relative z-50'>
       <Link to="/" className="text-2xl font-bold animate-fade-down animate-once animate-duration-[800ms] animate-delay-300 animate-ease-in relative z-50">
         <span className="">Quiz</span> <span className="text-[#00ddff]">master.</span>
       </Link>

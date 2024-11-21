@@ -147,18 +147,28 @@ const App = () => {
 
   return (
     <div>
-      <Navbar />
       <Routes>
         <Route 
           path="/" 
           element={
             <div className="bg-wrapper">
+              <Navbar />
               <HomePage scores={scores} subjects={subjects} scrollToSubjects={scrollToSubjects} />
             </div>
           } 
         />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={
+          <div className="bg-wrapper">
+            <Navbar />
+            <About />
+          </div>
+        } />
+        <Route path="/contact" element={
+          <div className="bg-wrapper">
+            <Navbar />
+            <Contact />
+          </div>
+        } />
       </Routes>
       <Footer />
     </div>
